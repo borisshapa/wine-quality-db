@@ -1,6 +1,6 @@
 import pyodbc
 
-connectionString = ("Driver={SQL Server Native Client 11.0};"
+connectionString = ("Driver={ODBC Driver 18 for SQL Server};"
                     "Server=mssql,1433"
                     "Database=audTv;"
                     "Trusted_Connection=yes")
