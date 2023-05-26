@@ -1,6 +1,7 @@
 import datetime
 import os
 import random
+from typing import Any
 
 import numpy as np
 import pandas as pd
@@ -8,6 +9,9 @@ from sklearn import model_selection
 
 WINE_TYPE_COLUMN_NAME = "wine type"
 CSV_SEPARATOR = ";"
+PASSWORD_ENV = "PASSWORD"
+USER_ID_ENV = "USER_ID"
+SERVER_ENV = "SERVER"
 
 
 def split_into_train_val_test(
@@ -48,3 +52,9 @@ def split_into_x_y(data: pd.DataFrame) -> tuple[pd.DataFrame, pd.Series]:
 
 def get_current_time() -> str:
     return datetime.datetime.now().strftime("%d_%m_%y_%H:%M:%S")
+
+
+def get_condition_str(condition: dict[str, Any]):
+    return " AND ".join(
+        [f"{key}={value}" for key, value in condition.items()]
+    )

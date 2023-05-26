@@ -2,11 +2,12 @@ version: "3.10"
 services:
   web:
     build: .
-#    command: bash -c "python -m scripts.split_train_val_test &&
-#         python -m scripts.train &&
-#         python -m scripts.eval &&
-#         coverage run -m src.unit_tests.test_preprocess &&
-#         coverage report -m"
+    command: bash -c "python -m scripts.train &&
+         python -m scripts.eval --db WineQuality --table Metrics &&
+         coverage run -m src.unit_tests.test_preprocess &&
+         coverage run -m src.unit_tests.test_dao &&
+         coverage combine &&
+         coverage report -m"
     ports:
       - 8000:8000
     image: borisshapa/wine-quality:latest
@@ -16,17 +17,23 @@ services:
       - mssql
     networks:
       - app-network
+    environment:
+      - USER_ID=SA
+      - PASSWORD=Password123
+      - SERVER=mssql,1433
   mssql:
-      image: "mcr.microsoft.com/mssql/server:2022-latest"
-      ports:
-          - "1433:1433"
-      environment:
-          - ACCEPT_EULA=Y
-          - SA_PASSWORD=Secret1234
-      volumes:
-          - "./drive:/var/opt/mssql"
-      networks:
-        - app-network
+    build:
+      dockerfile: mssql.dockerfile
+      context: .
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Password123
+    volumes:
+      - ./data/full.csv:/data/train_val.csv
+    networks:
+      - app-network
 
 networks:
   app-network:
