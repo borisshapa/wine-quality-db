@@ -14,19 +14,12 @@ services:
       - mssql
     networks:
       - app-network
-    environment:
-      - USER_ID=SA
-      - PASSWORD=Password123
-      - SERVER=mssql,1433
   mssql:
     build:
       dockerfile: mssql.dockerfile
       context: .
     ports:
       - "1433:1433"
-    environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=Password123
     volumes:
       - ./data/train_val.csv:/data/train_val.csv
     networks:
