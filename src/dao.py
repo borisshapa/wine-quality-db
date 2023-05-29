@@ -1,6 +1,7 @@
 import pandas as pd
 import pyodbc
 from typing import Any
+import loguru
 
 from src import utils
 

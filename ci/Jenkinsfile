@@ -3,6 +3,8 @@ pipeline {
 
     environment {
         DOCKERHUB_CREDS=credentials("borisshapa-dockerhub")
+        DB_SERVER=credentials("db-server")
+        MSSQL_CREDS=credentials("sa-mssql")
         LC_ALL = "en_US.UTF-8"
         LANG = "en_US.UTF-8"
         LANGUAGE = "en_US.UTF-8"
@@ -30,7 +32,7 @@ pipeline {
                 dir("wine-quality-db") {
                     script{
                         try {
-                            sh "docker compose build"
+                            sh "docker compose build --build-arg USER_ID=$MSSQL_CREDS_USR --build-arg PASSWORD=$MSSQL_CREDS_PSW --build-arg SERVER=$DB_SERVER"
                         } finally {
                             sh "docker compose up -d"
                         }
@@ -51,7 +53,7 @@ pipeline {
                                 }
                             }
                         } finally {
-                            sh "docker compose logs -t --tail 15 web"
+                            sh "docker compose logs -t --tail 13 web"
                         }
                     }
                 }
