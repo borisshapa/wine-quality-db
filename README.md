@@ -7,6 +7,7 @@ A service for determining the quality of wine by its numerical parameters.
 * `ci` contains Jenkinsfile for setting up ci pipeline;
 * `configs` contains the yaml files that define model hyperparameters;
 * `data` ‒ the directory with train/val/test datasets;
+* `db` ‒ database initialization scripts;
 * `experiments` contains catboost meta info and a model in binary file;
 * `notebooks` ‒ the directory with ipynb files with experiments and data analysis;
 * `scripts` ‒ executable files (`python -m scripts.<script-name> [ARGS]`);
@@ -42,6 +43,13 @@ The parameters go in the following order:
 11. alcohol
 12. **quality** (score between 0 and 10) ‒ target variable.
 
+## Database
+To fill database with data from csv file and read it from MSSql database, run the docker:
+```shell
+docker build -t mssql -f --build-arg PASSWORD=<password> .
+docker run -v ./data/train_val.csv:/data/train_val.csv -p 1433:1433 -d mssql
+```
+
 ## Model
 The algorithm is based on gradient boosting on decision trees. The service uses the [catboost](https://catboost.ai/) library.
 The model is defined by the yaml file. Example:
@@ -61,6 +69,20 @@ model:
   l2_leaf_reg: 3
   task_type: "CPU"
 ```
+
+If `data.db_name` is not specified, the data will be read from csv files (`train_data` and `val_data`).
+Otherwise, the data will be read from database. In this case the data section must look as follow:
+
+```yaml
+data:
+  db_name: "WineQuality"
+  data_table: "Wines"
+  val_ratio: 0.1
+  test_ratio: 0.1
+  cat_features_indices: [0]
+```
+
+Since in this case there is no direct division into training and validation samples, it is necessary to set the shares of the validation and test samples.
 
 ## Training
 When training the model on the CPU, it is possible to log metrics and loss in [wandb](https://wandb.ai/site).
