@@ -8,6 +8,7 @@ from src import utils
 
 class MsSql:
     def __init__(self, db_name: str, server: str, user_id: str, password: str):
+        loguru.logger.info(f"{db_name} | {server} | {user_id} | {password}")
         connectionString = (
             "Driver={ODBC Driver 18 for SQL Server};"
             f"Server={server};"
