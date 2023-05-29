@@ -27,7 +27,7 @@ pipeline {
         }
         stage("Build and run docker container") {
             steps {
-                dir("wine-quality") {
+                dir("wine-quality-db") {
                     script{
                         try {
                             sh "docker compose build"
@@ -40,7 +40,7 @@ pipeline {
         }
         stage("Checkout coverage report") {
             steps {
-                dir("wine-quality") {
+                dir("wine-quality-db") {
                     script {
                         try {
                             timeout(10) {
