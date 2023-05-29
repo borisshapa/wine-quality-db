@@ -15,5 +15,3 @@ RUN chmod u+x install_odbc_debian.sh && ./install_odbc_debian.sh
 ADD . /app
 
 RUN pip install -r requirements.txt
-
-ENTRYPOINT ["bash"]
