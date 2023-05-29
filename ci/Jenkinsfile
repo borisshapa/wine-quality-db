@@ -51,7 +51,7 @@ pipeline {
                                 }
                             }
                         } finally {
-                            sh "docker compose logs -t --tail 10"
+                            sh "docker compose logs -t --tail 15 web"
                         }
                     }
                 }
