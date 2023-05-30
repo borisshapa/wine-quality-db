@@ -20,5 +20,3 @@ RUN chmod +x sh_scripts/wait_for_it.sh
 RUN chmod +x sh_scripts/install_odbc_debian.sh && ./sh_scripts/install_odbc_debian.sh
 
 RUN pip install -r requirements.txt
-
-ENTRYPOINT ["bash"]
