@@ -46,7 +46,7 @@ The parameters go in the following order:
 ## Database
 To fill database with data from csv file and read it from MSSql database, run the docker:
 ```shell
-docker build -t mssql -f --build-arg PASSWORD=<password> .
+docker build -t mssql -f mssql.dockerfile --build-arg PASSWORD=<password> .
 docker run -v ./data/train_val.csv:/data/train_val.csv -p 1433:1433 -d mssql
 ```
 

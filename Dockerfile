@@ -14,12 +14,11 @@ RUN pip install --upgrade pip
 
 WORKDIR /app
 
-COPY requirements.txt /app
-
-COPY install_odbc_debian.sh /app
-
-RUN chmod u+x install_odbc_debian.sh && ./install_odbc_debian.sh
-
 ADD . /app
 
+RUN chmod +x sh_scripts/wait_for_it.sh
+RUN chmod +x sh_scripts/install_odbc_debian.sh && ./sh_scripts/install_odbc_debian.sh
+
 RUN pip install -r requirements.txt
+
+ENTRYPOINT ["bash"]
